@@ -3,7 +3,7 @@ window.addEventListener('load', getData);
 
 
 async function getData() {
-    let container = document.getElementById('container');
+    const container = document.getElementById('container');
 
     let response = await fetch("https://handlers.education.launchcode.org/static/astronauts.json");
 
@@ -11,15 +11,22 @@ async function getData() {
 
     jsonData.sort((a, b) => b.hoursInSpace - a.hoursInSpace);
 
+    const count = document.querySelector("#count");
+
+    count.innerHTML += `
+        <h2>Astronaut Count: ${jsonData.length}</h2>
+    `;
+
     jsonData.forEach(element => {
         container.innerHTML += `
             <div class=astronaut>
                 <div class=bio>
-                    <h3>${element.firstName} ${element.lastName}</h3>
+                    <h3>🚀${element.firstName} ${element.lastName}</h3>
+                    <hr>
                     <ul>
-                        <li>Hours in space: ${element.hoursInSpace}</li>
-                        <li>Active: ${element.active}</li>
-                        <li>Skills: ${element.skills.join(`, `)}</li>
+                        <li><strong>Hours in space</strong>: ${element.hoursInSpace}</li>
+                        <li><strong>Active</strong>: ${element.active}</li>
+                        <li><strong>Skills</strong>: ${element.skills.join(`, `)}</li>
                     </ul>
                 </div>
                 <img class=avatar src=${element.picture}>
@@ -31,14 +38,9 @@ async function getData() {
 
     active.forEach(index => {
         if (index.textContent.includes('true')) {
-            index.style.color = "green";
+            index.style.color = "lime";
         }
     });
-        
-    container.innerHTML += `
-        <p>Astronaut Count: ${jsonData.length}</p>
-    `;
-
 }
 
 
